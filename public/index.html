@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dictionary API</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    pre { background: #f3f3f3; padding: 10px; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>English ➜ Sinhala Dictionary</h1>
+  <input id="wordInput" type="text" placeholder="Enter a word" />
+  <button id="searchButton">Search</button>
+  <pre id="responsePre">Enter a word and click search...</pre>
+
+  <script>
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const word = document.getElementById('wordInput').value.trim();
+      if (!word) return alert("Please enter a word!");
+
+      fetch(`/api?word=${word}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('responsePre').textContent =
+            JSON.stringify(data, null, 2);
+        })
+        .catch(err => {
+          document.getElementById('responsePre').textContent =
+            'Error fetching data: ' + err.message;
+        });
+    });
+  </script>
+</body>
+</html>
